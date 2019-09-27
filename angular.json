@@ -15,14 +15,18 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-builders/custom-webpack:browser",
           "options": {
+            "customWebpackConfig": {
+              "path": "./custom-webpack.config.prod.js",
+              "mergeStrategies": { "module.rules": "append" }
+            },
             "outputPath": "dist/CustomFontTest",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": [
               "src/favicon.ico",
               "src/assets"
@@ -47,7 +51,7 @@
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
-              "vendorChunk": false,
+              "vendorChunk": true,
               "buildOptimizer": true,
               "budgets": [
                 {
@@ -65,9 +69,13 @@
           }
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular-builders/custom-webpack:dev-server",
           "options": {
-            "browserTarget": "CustomFontTest:build"
+            "browserTarget": "CustomFontTest:build",
+            "customWebpackConfig": {
+              "path": "./custom-webpack.config.dev.js",
+              "mergeStrategies": { "module.rules": "append" }
+            }
           },
           "configurations": {
             "production": {
